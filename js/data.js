@@ -1,4 +1,4 @@
-/* Echo Loop 词库数据 */
+/* Deepecho 词库数据 */
 const WORDS = [
   { word: "journey",   phonetic: "/ˈdʒɜːni/",     meaning: "n. 旅程；旅行",       sentence: "Life is a journey, not a destination." },
   { word: "practice",  phonetic: "/ˈpræktɪs/",    meaning: "n./v. 练习；实践",    sentence: "Practice makes perfect." },
