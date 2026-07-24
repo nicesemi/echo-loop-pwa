@@ -99,37 +99,6 @@ button { font-family: inherit; border: none; cursor: pointer; }
 .module-name { font-size: 1.05rem; font-weight: 700; color: var(--text); }
 .module-desc { font-size: 0.75rem; color: var(--text-sub); }
 
-/* ============ QR 占位（纯 CSS 生成） ============ */
-.qr-section { text-align: center; margin-top: 20px; }
-.qr-placeholder {
-  width: 168px; height: 168px;
-  margin: 0 auto;
-  position: relative;
-  border-radius: 12px;
-  padding: 12px;
-  background:
-    repeating-conic-gradient(var(--purple-deep) 0% 25%, transparent 0% 50%) 0 0 / 24px 24px,
-    repeating-conic-gradient(transparent 0% 25%, var(--purple-deep) 0% 32%, transparent 0% 50%) 12px 12px / 28px 28px,
-    #fff;
-  border: 2px solid #e9e4ff;
-  background-clip: content-box, content-box, border-box;
-}
-.qr-corner {
-  position: absolute;
-  width: 40px; height: 40px;
-  border: 6px solid var(--purple-deep);
-  background: #fff;
-  border-radius: 6px;
-}
-.qr-corner::after {
-  content: ""; position: absolute; inset: 6px;
-  background: var(--purple-deep); border-radius: 2px;
-}
-.qr-corner.tl { top: 10px; left: 10px; }
-.qr-corner.tr { top: 10px; right: 10px; }
-.qr-corner.bl { bottom: 10px; left: 10px; }
-.qr-caption { font-size: 1rem; font-weight: 700; margin-top: 14px; color: var(--text); }
-.qr-note { font-size: 0.72rem; color: var(--text-sub); margin-top: 6px; }
 
 /* ============ 通用按钮 ============ */
 .primary-btn {
