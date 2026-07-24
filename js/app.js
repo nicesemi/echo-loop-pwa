@@ -1,4 +1,4 @@
-/* ============ Echo Loop PWA · 主脚本 ============ */
+/* ============ Deepecho PWA · 主脚本 ============ */
 (function () {
   "use strict";
 
