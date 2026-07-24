@@ -10,6 +10,20 @@
     set(key, val) { localStorage.setItem("echo_" + key, JSON.stringify(val)); }
   };
 
+  /* ---------- Speech Voices 预加载 ---------- */
+  let _cachedEnglishVoice = null;
+  if ("speechSynthesis" in window) {
+    const loadVoices = () => {
+      const voices = speechSynthesis.getVoices();
+      _cachedEnglishVoice = voices.find(v => v.lang.startsWith("en") && v.name.includes("Google")) ||
+                           voices.find(v => v.lang.startsWith("en") && v.name.includes("Samantha")) ||
+                           voices.find(v => v.lang.startsWith("en")) ||
+                           voices[0];
+    };
+    loadVoices();
+    speechSynthesis.addEventListener("voiceschanged", loadVoices);
+  }
+
   /* ---------- 页面路由 ---------- */
   const pages = {};
   $$(".page").forEach(p => pages[p.id.replace("page-", "")] = p);
@@ -90,11 +104,17 @@
     });
   }
 
+  function getEnglishVoice() {
+    return _cachedEnglishVoice || speechSynthesis.getVoices().find(v => v.lang.startsWith("en")) || speechSynthesis.getVoices()[0];
+  }
+
   function playWord() {
     if (!listenState.word) return;
     const utterance = new SpeechSynthesisUtterance(listenState.word.word);
     utterance.lang = "en-US";
     utterance.rate = 0.85;
+    const voice = getEnglishVoice();
+    if (voice) utterance.voice = voice;
     speechSynthesis.cancel();
     speechSynthesis.speak(utterance);
   }
@@ -183,6 +203,8 @@
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "en-US";
     utterance.rate = 0.8;
+    const voice = getEnglishVoice();
+    if (voice) utterance.voice = voice;
     speechSynthesis.cancel();
     speechSynthesis.speak(utterance);
   }
@@ -290,6 +312,8 @@
     const utterance = new SpeechSynthesisUtterance(word.word);
     utterance.lang = "en-US";
     utterance.rate = 0.85;
+    const voice = getEnglishVoice();
+    if (voice) utterance.voice = voice;
     speechSynthesis.cancel();
     speechSynthesis.speak(utterance);
   });
