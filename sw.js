@@ -1,4 +1,4 @@
-/* Echo Loop Service Worker · 离线缓存策略 */
+/* Deepecho Service Worker · 离线缓存策略 */
 const CACHE = "echo-loop-v1";
 const ASSETS = [
   "/",
