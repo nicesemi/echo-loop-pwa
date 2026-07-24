@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#7c3aed">
+  <meta name="description" content="Echo Loop 英语听说练习：听音选词、跟读评分、单词闪卡、每日打卡">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Echo Loop">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="icon" type="image/png" href="/icons/icon-192.png">
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Echo Loop · 英语听说</title>
+</head>
+<body>
+
+  <!-- 顶部 -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="logo-badge">EL</div>
+      <div class="header-text">
+        <h1>Echo Loop</h1>
+        <p>英语听说 · 每天进步一点点</p>
+      </div>
+      <button id="installBtn" class="install-btn" hidden>安装</button>
+    </div>
+  </header>
+
+  <main class="app-main">
+
+    <!-- ============ 首页 ============ -->
+    <section id="page-home" class="page active">
+      <div class="streak-banner card">
+        <div class="streak-flame">🔥</div>
+        <div>
+          <div class="streak-num"><span id="homeStreak">0</span> 天</div>
+          <div class="streak-label">连续打卡</div>
+        </div>
+        <button class="mini-btn" data-goto="checkin">去打卡</button>
+      </div>
+
+      <h2 class="section-title">开始练习</h2>
+      <div class="module-grid">
+        <button class="module-card" data-goto="listen">
+          <span class="module-icon">🎧</span>
+          <span class="module-name">听音选词</span>
+          <span class="module-desc">磨耳朵 · 辨析发音</span>
+        </button>
+        <button class="module-card" data-goto="speak">
+          <span class="module-icon">🎤</span>
+          <span class="module-name">跟读评分</span>
+          <span class="module-desc">开口说 · AI 评分</span>
+        </button>
+        <button class="module-card" data-goto="flashcard">
+          <span class="module-icon">🃏</span>
+          <span class="module-name">单词闪卡</span>
+          <span class="module-desc">翻一翻 · 记单词</span>
+        </button>
+        <button class="module-card" data-goto="checkin">
+          <span class="module-icon">📅</span>
+          <span class="module-name">每日打卡</span>
+          <span class="module-desc">坚持住 · 养习惯</span>
+        </button>
+      </div>
+
+      <!-- QR 占位 -->
+      <div class="qr-section card">
+        <div class="qr-placeholder" aria-label="二维码占位">
+          <i class="qr-corner tl"></i><i class="qr-corner tr"></i><i class="qr-corner bl"></i>
+        </div>
+        <p class="qr-caption">扫码安装到桌面</p>
+        <p class="qr-note">部署到 Vercel 后，将此占位替换为站点地址的真实二维码</p>
+      </div>
+    </section>
+
+    <!-- ============ 听音选词 ============ -->
+    <section id="page-listen" class="page">
+      <div class="page-head">
+        <h2>🎧 听音选词</h2>
+        <p>听发音，选出正确的单词</p>
+      </div>
+      <div class="card quiz-card">
+        <div class="quiz-progress"><span id="listenProgress">1 / 5</span> · 得分 <span id="listenScore">0</span></div>
+        <button id="playSoundBtn" class="big-round-btn" aria-label="播放发音">🔊</button>
+        <p class="hint-text">点击喇叭听发音（可多次播放）</p>
+        <div id="listenOptions" class="option-list"></div>
+        <div id="listenFeedback" class="feedback"></div>
+        <button id="listenNextBtn" class="primary-btn" hidden>下一题</button>
+      </div>
+      <div id="listenResult" class="card result-card" hidden>
+        <div class="result-emoji">🎉</div>
+        <div class="result-title">本轮完成！</div>
+        <div class="result-score" id="listenFinalScore"></div>
+        <button id="listenRestartBtn" class="primary-btn">再来一轮</button>
+      </div>
+    </section>
+
+    <!-- ============ 跟读评分 ============ -->
+    <section id="page-speak" class="page">
+      <div class="page-head">
+        <h2>🎤 跟读评分</h2>
+        <p>先听示范，再跟读，看看你的发音得几分</p>
+      </div>
+      <div class="card speak-card">
+        <div class="speak-sentence" id="speakSentence">Loading...</div>
+        <div class="speak-meaning" id="speakMeaning"></div>
+        <div class="speak-controls">
+          <button id="speakPlayBtn" class="round-btn" aria-label="听示范">🔊<span>听示范</span></button>
+          <button id="speakRecordBtn" class="round-btn record" aria-label="开始跟读">🎙️<span>跟读</span></button>
+          <button id="speakNextBtn" class="round-btn" aria-label="换一句">🔄<span>换一句</span></button>
+        </div>
+        <div id="speakStatus" class="speak-status"></div>
+        <div id="speakResult" class="speak-result" hidden>
+          <div class="score-ring"><span id="speakScoreNum">0</span></div>
+          <div id="speakScoreText" class="score-text"></div>
+          <div class="recognized-box">你说的是：<span id="speakRecognized"></span></div>
+        </div>
+        <p id="speakUnsupported" class="warn-text" hidden>当前浏览器不支持语音识别（iOS 请使用 Safari，Android 推荐 Chrome）。你仍可以听示范并跟读练习。</p>
+      </div>
+    </section>
+
+    <!-- ============ 单词闪卡 ============ -->
+    <section id="page-flashcard" class="page">
+      <div class="page-head">
+        <h2>🃏 单词闪卡</h2>
+        <p>点击卡片翻面，左右按钮切换</p>
+      </div>
+      <div class="flash-wrap">
+        <div id="flashCard" class="flash-card">
+          <div class="flash-face flash-front">
+            <div class="flash-word" id="flashWord">word</div>
+            <div class="flash-phonetic" id="flashPhonetic">/wɜːd/</div>
+            <button id="flashSpeakBtn" class="mini-btn" aria-label="播放发音">🔊 发音</button>
+            <div class="flash-tip">点击卡片查看释义</div>
+          </div>
+          <div class="flash-face flash-back">
+            <div class="flash-meaning" id="flashMeaning">释义</div>
+            <div class="flash-sentence" id="flashSentence"></div>
+            <div class="flash-tip">点击卡片返回</div>
+          </div>
+        </div>
+        <div class="flash-nav">
+          <button id="flashPrevBtn" class="nav-btn">← 上一张</button>
+          <span id="flashIndex" class="flash-index">1 / 10</span>
+          <button id="flashNextBtn" class="nav-btn">下一张 →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 每日打卡 ============ -->
+    <section id="page-checkin" class="page">
+      <div class="page-head">
+        <h2>📅 每日打卡</h2>
+        <p>坚持练习，养成习惯</p>
+      </div>
+      <div class="card checkin-card">
+        <div class="checkin-stats">
+          <div class="stat"><div class="stat-num" id="ciStreak">0</div><div class="stat-label">连续天数</div></div>
+          <div class="stat"><div class="stat-num" id="ciTotal">0</div><div class="stat-label">累计天数</div></div>
+        </div>
+        <div class="week-row" id="weekRow"></div>
+        <button id="checkinBtn" class="primary-btn checkin-btn">今日打卡</button>
+        <p id="checkinMsg" class="checkin-msg"></p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 底部导航 -->
+  <nav class="tab-bar">
+    <button class="tab-item active" data-goto="home"><span class="tab-icon">🏠</span><span>首页</span></button>
+    <button class="tab-item" data-goto="listen"><span class="tab-icon">🎧</span><span>听选</span></button>
+    <button class="tab-item" data-goto="speak"><span class="tab-icon">🎤</span><span>跟读</span></button>
+    <button class="tab-item" data-goto="flashcard"><span class="tab-icon">🃏</span><span>闪卡</span></button>
+    <button class="tab-item" data-goto="checkin"><span class="tab-icon">📅</span><span>打卡</span></button>
+  </nav>
+
+  <script src="/js/data.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
