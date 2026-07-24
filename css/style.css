@@ -239,6 +239,15 @@ button { font-family: inherit; border: none; cursor: pointer; }
 .checkin-btn { font-size: 1.15rem; }
 .checkin-msg { text-align: center; min-height: 22px; margin-top: 12px; font-size: 0.9rem; color: var(--purple-1); font-weight: 700; }
 
+
+/* ============ 扫码安装 ============ */
+.qr-install { margin-top: 8px; }
+.qr-row { display: flex; align-items: center; gap: 16px; }
+.qr-img { width: 90px; height: 90px; border-radius: 12px; flex-shrink: 0; }
+.qr-text { flex: 1; }
+.qr-title { font-size: 1rem; font-weight: 700; color: var(--purple-1); margin-bottom: 4px; }
+.qr-desc { font-size: 0.8rem; color: var(--text-sub); line-height: 1.5; }
+
 /* ============ 底部导航 ============ */
 .tab-bar {
   position: fixed; bottom: 0; left: 0; right: 0;
